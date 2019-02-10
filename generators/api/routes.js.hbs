@@ -1,0 +1,24 @@
+/*
+* {{ properCase name }} Routes
+*
+* This contains defalut {{ properCase name }} Route for the API.
+*/
+
+
+import { Router } from 'express';
+import * as {{properCase name}}Controller from './{{properCase name}}.controller';
+const {{properCase name}}Router = new Router();
+
+// Get all Foods
+{{properCase name}}Router.route('/{{name}}s').get({{properCase name}}Controller.get{{properCase name}});
+
+// Get one food by cuid
+{{properCase name}}Router.route('/{{name}}s/:cuid').get({{properCase name}}Controller.get{{properCase name}});
+
+// Add a new Food
+{{properCase name}}Router.route('/{{properCase name}}s').post({{properCase name}}Controller.add{{properCase name}});
+
+// Delete a food by cuid
+{{properCase name}}Router.route('/{{name}}s/:cuid').delete({{properCase name}}Controller.delete{{properCase name}});
+
+export default {{properCase name}}Router;
