@@ -1,26 +1,26 @@
 /*
-* {{ properCase name }} Controller
+* Food Controller
 *
-* This contains default {{ properCase name }} controller.
+* This contains default Food controller.
 */
 
 
-import {{ properCase name }} from './model';
+import Food from './model';
 import cuid from 'cuid';
 import slug from 'limax';
 import sanitizeHtml from 'sanitize-html';
 
 /**
-* Get all {{name}}s
+* Get all foods
 * @param req
 * @param res
 * @returns void
 */
 
-export async function get{{ properCase name }} (req, res) {
+export async function getFood (req, res) {
     try {
         res.status(200)
-            .json(await {{properCase name}}
+            .json(await Food
              .find({})
              .sort('-dateAdded')
              .lean()
@@ -31,35 +31,35 @@ export async function get{{ properCase name }} (req, res) {
 }
 
 /**
-* Save a {{name}}
+* Save a food
 * @param req
 * @param res
 * @returns void
 */
-export async function add{{ properCase name}}(req, res) {
+export async function addFood(req, res) {
 try {
     // console.log('req.body', req.body);
     // Save model data for Sanitization
-    const sanitized{{ properCase name }} = new {{ properCase name }}(req.body);
+    const sanitizedFood = new Food(req.body);
 
     // Let's sanitize inputs
-    sanitized{{ properCase name }}.item = sanitizeHtml(sanitized{{ properCase name }}.item);
-    sanitized{{ properCase name }}.info = sanitizeHtml(sanitized{{ properCase name }}.info);
-    sanitized{{ properCase name }}.created_by = sanitizeHtml(sanitized{{ properCase name }}.created_by);
-    sanitized{{ properCase name }}.created_at = sanitizeHtml(sanitized{{ properCase name }}.created_at);
+    sanitizedFood.item = sanitizeHtml(sanitizedFood.item);
+    sanitizedFood.info = sanitizeHtml(sanitizedFood.info);
+    sanitizedFood.created_by = sanitizeHtml(sanitizedFood.created_by);
+    sanitizedFood.created_at = sanitizeHtml(sanitizedFood.created_at);
 
     // Add slug data for specific field
-    sanitized{{ properCase name }}.slug = slug(sanitized{{ properCase name }}.item.toLowerCase(), {
+    sanitizedFood.slug = slug(sanitizedFood.item.toLowerCase(), {
         lowercase: true,
     });
     // Add cuid for the model
-    sanitized{{ properCase name }}.cuid = cuid();
+    sanitizedFood.cuid = cuid();
 
     // Make asynchronous call to save the model to Database
 
-    const {{ name }} = await {{ properCase name }}.create(sanitized{{ properCase name }});
+    const food = await Food.create(sanitizedFood);
     res.status(201)
-        .json({{ name }}.toJSON());
+        .json(food.toJSON());
     } catch (e) {
     // if (!req.body.food.item || !req.body.food.info || !req.body.food.cost) {
     // res.status(403).end();
@@ -70,15 +70,15 @@ try {
 }
 
 /**
-* Get a single {{name}} By Id
+* Get a single food By Id
 * @param req
 * @param res
 * @returns void
 */
-export async function get{{ properCase name }}ById(req, res) {
+export async function getFoodById(req, res) {
     try {
         res.status(200)
-            .json(await {{ properCase name }}
+            .json(await Food
             .findOne({ cuid: req.params.id })
             // .findById(req.params.id)
             .lean()
@@ -90,15 +90,15 @@ export async function get{{ properCase name }}ById(req, res) {
 }
 
 /**
-* Delete a {{name}}
+* Delete a food
 * @param req
 * @param res
 * @returns void
 */
-export async function delete{{ properCase name }}(req, res) {
+export async function deleteFood(req, res) {
     try {
         res.json(200)
-            .json(await {{ properCase name }}
+            .json(await Food
             .findOne({ cuid: req.params.cuid })
             .lean()
             .exec()
