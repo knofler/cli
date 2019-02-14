@@ -17,6 +17,12 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 {{/if}}
 import { compose } from 'redux';
+import Card from "components/Card";
+import { 
+  LOAD_{{ properCase name }}_API_DATA,
+  LOAD_{{ properCase name }}_EVENTS,
+  LOAD_{{ properCase name }}_FEATURED_EVENTS
+ } from "./actions";
 
 {{#if wantSaga}}
 import injectSaga from 'utils/injectSaga';

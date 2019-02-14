@@ -6,7 +6,7 @@
 
 
 import { Router } from 'express';
-import * as FoodController from './Food.controller';
+import * as FoodController from './controller';
 const FoodRouter = new Router();
 
 // Get all Foods
