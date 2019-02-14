@@ -74,12 +74,6 @@ module.exports = {
     const actions = [
       {
         type: "add",
-        path: "../../server/api/{{properCase name}}/index.js",
-        templateFile: apiTemplate,
-        abortOnFail: true
-      },
-      {
-        type: "add",
         path: "../../server/api/{{properCase name}}/tests/index.test.js",
         templateFile: "./api/test.js.hbs",
         abortOnFail: true

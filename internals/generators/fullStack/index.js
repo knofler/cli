@@ -1,17 +1,19 @@
 /**
- * Container Generator
+ * FullStack Generator
  */
 
-const componentExists = require("../utils/componentExists");
+
+
+// const componentExists = require("../utils/componentExists");
 
 module.exports = {
-  description: "Add a container component",
+  description: "Create a FullStack App ",
   prompts: [
     {
       type: "list",
       name: "type",
-      message: "Select the base component type:",
-      default: "Stateless Function",
+      message: "Select Deployment Options :",
+      default: "Both",
       choices: () => [
         "Stateless Function",
         "React.PureComponent",
@@ -23,15 +25,15 @@ module.exports = {
       name: "name",
       message: "What should it be called?",
       default: "Form",
-      validate: value => {
-        if (/.+/.test(value)) {
-          return componentExists(value)
-            ? "A component or container with this name already exists"
-            : true;
-        }
+      // validate: value => {
+      //   if (/.+/.test(value)) {
+      //     return componentExists(value)
+      //       ? "A component or container with this name already exists"
+      //       : true;
+      //   }
 
-        return "The name is required";
-      }
+      //   return "The name is required";
+      // }
     },
     {
       type: "confirm",
@@ -63,11 +65,36 @@ module.exports = {
       name: "wantLoadable",
       default: true,
       message: "Do you want to load resources asynchronously?"
+    },
+    {
+      type: "confirm",
+      name: "wantModel",
+      default: true,
+      message: "Do you want to start with a model for your Data schema?"
+    },
+    {
+      type: "confirm",
+      name: "wantRoutes",
+      default: true,
+      message: "Do you want Routes?"
+    },
+    {
+      type: "confirm",
+      name: "wantController",
+      default: true,
+      message:
+        "Do you want a controller for this model?"
+    },
+    {
+      type: "confirm",
+      name: "wantDummyData",
+      default: false,
+      message: "Do you want dummy data for the model? (e.g. fetching data)"
     }
   ],
   actions: data => {
     // Generate index.js and index.test.js
-    var componentTemplate; // eslint-disable-line no-var
+    var componentTemplate,apiTemplate; // eslint-disable-line no-var
 
     switch (data.type) {
       case "Stateless Function": {
@@ -90,6 +117,12 @@ module.exports = {
         type: "add",
         path: "../../app/containers/{{properCase name}}/tests/index.test.js",
         templateFile: "./container/test.js.hbs",
+        abortOnFail: true
+      },
+      {
+        type: "add",
+        path: "../../server/api/{{properCase name}}/tests/index.test.js",
+        templateFile: "./api/test.js.hbs",
         abortOnFail: true
       }
     ];
@@ -175,6 +208,7 @@ module.exports = {
       });
     }
 
+    // If api needs model,route and controller
     if (data.wantLoadable) {
       actions.push({
         type: "add",
@@ -184,9 +218,46 @@ module.exports = {
       });
     }
 
+    if (data.wantModel) {
+      actions.push({
+        type: "add",
+        path: "../../server/api/{{properCase name}}/model.js",
+        templateFile: "./api/model.js.hbs",
+        abortOnFail: true
+      });
+    }
+
+    if (data.wantRoutes) {
+      actions.push({
+        type: "add",
+        path: "../../server/api/{{properCase name}}/routes.js",
+        templateFile: "./api/routes.js.hbs",
+        abortOnFail: true
+      });
+    }
+
+    if (data.wantController) {
+      actions.push({
+        type: "add",
+        path: "../../server/api/{{properCase name}}/controller.js",
+        templateFile: "./api/controller.js.hbs",
+        abortOnFail: true
+      });
+    }
+
+    if (data.wantDummyData) {
+      actions.push({
+        type: "add",
+        path: "../../server/api/{{properCase name}}/dummyData.js",
+        templateFile: "./api/dummyData.js.hbs",
+        abortOnFail: true
+      });
+    }
+
+
     actions.push({
       type: "prettify",
-      path: "/containers/"
+      path: ["/containers/","/api/"]
     });
 
     return actions;
