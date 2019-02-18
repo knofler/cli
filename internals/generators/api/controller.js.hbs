@@ -20,9 +20,7 @@ import sanitizeHtml from 'sanitize-html';
 export async function get{{ properCase name }}(req, res) {
   try {
     const doc = await {{properCase name}}
-    .find({
-        cuid: req.params.cuid
-    })
+    .find({})
     .sort('-dateAdded')
     .lean()
     .exec()

@@ -16,7 +16,7 @@ ChefRouter.route('/chefs').get(ChefController.getChef);
 ChefRouter.route('/chefs/:cuid').get(ChefController.getChefById);
 
 // Add a new Chef
-ChefRouter.route('/Chefs').post(ChefController.addChef);
+ChefRouter.route('/chefs').post(ChefController.addChef);
 
 // Update a Chef
 ChefRouter.route('/chefs/:cuid').put(ChefController.updateOneChef);

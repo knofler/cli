@@ -20,9 +20,7 @@ import sanitizeHtml from 'sanitize-html';
 export async function getChef(req, res) {
   try {
     const doc = await Chef
-    .find({
-        cuid: req.params.cuid
-    })
+    .find({})
     .sort('-dateAdded')
     .lean()
     .exec()

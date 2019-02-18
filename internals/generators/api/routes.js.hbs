@@ -16,7 +16,7 @@ const {{properCase name}}Router = new Router();
 {{properCase name}}Router.route('/{{name}}s/:cuid').get({{properCase name}}Controller.get{{properCase name}}ById);
 
 // Add a new {{ properCase name }}
-{{properCase name}}Router.route('/{{properCase name}}s').post({{properCase name}}Controller.add{{properCase name}});
+{{properCase name}}Router.route('/{{name}}s').post({{properCase name}}Controller.add{{properCase name}});
 
 // Update a {{ properCase name }}
 {{properCase name}}Router.route('/{{name}}s/:cuid').put({{properCase name}}Controller.updateOne{{properCase name}});
