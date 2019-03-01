@@ -96,7 +96,7 @@ export class {{ properCase name }} extends {{{ type }}} {
 
 {{#if wantActionsAndReducer}}
 const mapStateToProps = createStructuredSelector({
-  {{ camelCase name }}: makeSelect{{properCase name}}(),
+  //{{ camelCase name }}: makeSelect{{properCase name}}(),
   events_{{ properCase name }}: make{{properCase name}}EventsSelector(),
   featuredEvents_{{ properCase name }}: make{{properCase name}}FeaturedEventSelector(),
   apiDataEvents_{{ properCase name }}: make{{ properCase name }}ApiDataSelector()
