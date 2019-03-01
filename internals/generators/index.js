@@ -9,6 +9,7 @@ const path = require("path");
 const { exec } = require("child_process");
 
 const apiGenerator = require("./api/index.js");
+const crudGenerator = require("./crud/index.js");
 const componentGenerator = require("./component/index.js");
 const containerGenerator = require("./container/index.js");
 const fullStackGenerator = require("./fullStack/index.js");
@@ -16,6 +17,7 @@ const languageGenerator = require("./language/index.js");
 
 module.exports = plop => {
   plop.setGenerator("fullStack", fullStackGenerator);
+  plop.setGenerator("crud", crudGenerator);
   plop.setGenerator("api", apiGenerator);
   plop.setGenerator("component", componentGenerator);
   plop.setGenerator("container", containerGenerator);

@@ -52,22 +52,22 @@ function {{ camelCase name }}Reducer(state = initialState, action) {
     case LOAD_{{ properCase name }}_EVENTS_ERROR:
       return state.set("{{ properCase name }}_events_loading", false).set("{{ properCase name }}_events_error", action.{{ properCase name }}_events_error);
     case LOAD_{{ properCase name }}_EVENTS_SUCCESS:
-      console.log("In LOAD_{{ properCase name }}_EVENTS_SUCCESS reducer, action", action.{{ properCase name }}_Events",
-      action.{{ properCase name }}_events;
+      console.log("In LOAD_{{ properCase name }}_EVENTS_SUCCESS reducer, action.{{ properCase name }}_Events",
+      action.{{ properCase name }}_events);
       return state
       .set("{{ properCase name }}_events_loading", true)
       .set("{{ properCase name }}_events_error", false)
       .set("{{ properCase name }}_events", action.{{ properCase name }}_events);
     case LOAD_{{ properCase name }}_FEATURED_EVENTS:
-      console.log("In LOAD_{{ properCase name }}_FEATURED_EVENTS action", action);
+      console.log("In LOAD_{{ properCase name }}_FEATURED_EVENTS action", action.{{ properCase name }}_featured_events);
       return state.set("{{ properCase name }}_featured_events", true).set("{{ properCase name }}_featured_error", false);
     case LOAD_{{ properCase name }}_FEATURED_EVENTS_ERROR:
       return state
         .set("{{ properCase name }}_featured_events", false)
         .set("{{ properCase name }}_featured_error", action.{{ properCase name }}_featured_error);
     case LOAD_{{ properCase name }}_FEATURED_EVENTS_SUCCESS:
-        console.log("In LOAD_{{ properCase name }}_FEATURED_EVENTS_SUCCESS reducer, action", action.{{ properCase name }}_Events",
-        action.{{ properCase name }}_featured_events;
+        console.log("In LOAD_{{ properCase name }}_FEATURED_EVENTS_SUCCESS reducer,action.{{ properCase name }}_featured_events",
+        action.{{ properCase name }}_featured_events);
       return state
         .set("{{ properCase name }}_featured_loading", true)
         .set("{{ properCase name }}_featured_error", false)

@@ -2,8 +2,13 @@
  * FullStack Generator
  */
 
+const path = require('path');
 
+const react_app = path.join('../../../','aircanteen', '/app/','containers');
+const mongo_api = path.join('../../../','mern-starter','/server/', 'api')
 
+console.log('react_app ', react_app)
+console.log('mongo_api', mongo_api)
 // const componentExists = require("../utils/componentExists");
 
 module.exports = {
@@ -109,19 +114,19 @@ module.exports = {
     const actions = [
       {
         type: "add",
-        path: "../../app/containers/{{properCase name}}/index.js",
+        path: `${react_app}/{{properCase name}}/index.js`,
         templateFile: componentTemplate,
         abortOnFail: true
       },
       {
         type: "add",
-        path: "../../app/containers/{{properCase name}}/tests/index.test.js",
+        path: `${react_app}/{{properCase name}}/tests/index.test.js`,
         templateFile: "./container/test.js.hbs",
         abortOnFail: true
       },
       {
         type: "add",
-        path: "../../server/api/{{properCase name}}/tests/index.test.js",
+        path: `${mongo_api}/{{properCase name}}/tests/index.test.js`,
         templateFile: "./api/test.js.hbs",
         abortOnFail: true
       }
@@ -131,7 +136,7 @@ module.exports = {
     if (data.wantMessages) {
       actions.push({
         type: "add",
-        path: "../../app/containers/{{properCase name}}/messages.js",
+        path: `${react_app}/{{properCase name}}/messages.js`,
         templateFile: "./container/messages.js.hbs",
         abortOnFail: true
       });
@@ -143,13 +148,13 @@ module.exports = {
       // Actions
       actions.push({
         type: "add",
-        path: "../../app/containers/{{properCase name}}/actions.js",
+        path: `${react_app}/{{properCase name}}/actions.js`,
         templateFile: "./container/actions.js.hbs",
         abortOnFail: true
       });
       actions.push({
         type: "add",
-        path: "../../app/containers/{{properCase name}}/tests/actions.test.js",
+        path: `${react_app}/{{properCase name}}/tests/actions.test.js`,
         templateFile: "./container/actions.test.js.hbs",
         abortOnFail: true
       });
@@ -157,7 +162,7 @@ module.exports = {
       // Constants
       actions.push({
         type: "add",
-        path: "../../app/containers/{{properCase name}}/constants.js",
+        path: `${react_app}/{{properCase name}}/constants.js`,
         templateFile: "./container/constants.js.hbs",
         abortOnFail: true
       });
@@ -165,14 +170,13 @@ module.exports = {
       // Selectors
       actions.push({
         type: "add",
-        path: "../../app/containers/{{properCase name}}/selectors.js",
+        path: `${react_app}/{{properCase name}}/selectors.js`,
         templateFile: "./container/selectors.js.hbs",
         abortOnFail: true
       });
       actions.push({
         type: "add",
-        path:
-          "../../app/containers/{{properCase name}}/tests/selectors.test.js",
+        path: `${react_app}/{{properCase name}}/tests/selectors.test.js`,
         templateFile: "./container/selectors.test.js.hbs",
         abortOnFail: true
       });
@@ -180,13 +184,13 @@ module.exports = {
       // Reducer
       actions.push({
         type: "add",
-        path: "../../app/containers/{{properCase name}}/reducer.js",
+        path: `${react_app}/{{properCase name}}/reducer.js`,
         templateFile: "./container/reducer.js.hbs",
         abortOnFail: true
       });
       actions.push({
         type: "add",
-        path: "../../app/containers/{{properCase name}}/tests/reducer.test.js",
+        path: `${react_app}/{{properCase name}}/tests/reducer.test.js`,
         templateFile: "./container/reducer.test.js.hbs",
         abortOnFail: true
       });
@@ -196,13 +200,13 @@ module.exports = {
     if (data.wantSaga) {
       actions.push({
         type: "add",
-        path: "../../app/containers/{{properCase name}}/saga.js",
+        path: `${react_app}/{{properCase name}}/saga.js`,
         templateFile: "./container/saga.js.hbs",
         abortOnFail: true
       });
       actions.push({
         type: "add",
-        path: "../../app/containers/{{properCase name}}/tests/saga.test.js",
+        path: `${react_app}/{{properCase name}}/tests/saga.test.js`,
         templateFile: "./container/saga.test.js.hbs",
         abortOnFail: true
       });
@@ -212,7 +216,7 @@ module.exports = {
     if (data.wantLoadable) {
       actions.push({
         type: "add",
-        path: "../../app/containers/{{properCase name}}/Loadable.js",
+        path: `${react_app}/{{properCase name}}/Loadable.js`,
         templateFile: "./component/loadable.js.hbs",
         abortOnFail: true
       });
@@ -221,7 +225,7 @@ module.exports = {
     if (data.wantModel) {
       actions.push({
         type: "add",
-        path: "../../server/api/{{properCase name}}/model.js",
+        path: `${mongo_api}/{{properCase name}}/model.js`,
         templateFile: "./api/model.js.hbs",
         abortOnFail: true
       });
@@ -230,7 +234,7 @@ module.exports = {
     if (data.wantRoutes) {
       actions.push({
         type: "add",
-        path: "../../server/api/{{properCase name}}/routes.js",
+        path: `${mongo_api}/{{properCase name}}/routes.js`,
         templateFile: "./api/routes.js.hbs",
         abortOnFail: true
       });
@@ -239,7 +243,7 @@ module.exports = {
     if (data.wantController) {
       actions.push({
         type: "add",
-        path: "../../server/api/{{properCase name}}/controller.js",
+        path: `${mongo_api}/{{properCase name}}/controller.js`,
         templateFile: "./api/controller.js.hbs",
         abortOnFail: true
       });
@@ -248,7 +252,7 @@ module.exports = {
     if (data.wantDummyData) {
       actions.push({
         type: "add",
-        path: "../../server/api/{{properCase name}}/dummyData.js",
+        path: `${mongo_api}/{{properCase name}}/dummyData.js`,
         templateFile: "./api/dummyData.js.hbs",
         abortOnFail: true
       });
@@ -257,7 +261,7 @@ module.exports = {
 
     actions.push({
       type: "prettify",
-      path: ["/containers/","/api/"]
+      path: "/api/"
     });
 
     return actions;
