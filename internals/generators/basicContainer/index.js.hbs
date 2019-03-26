@@ -15,10 +15,7 @@ import { FormattedMessage } from 'react-intl';
 {{/if}}
 {{#if wantActionsAndReducer}}
 import { createStructuredSelector } from 'reselect';
-import {
-  makeSelect{{properCase name}},
-  make{{properCase name }}ApiDataSelector,
- } from './selectors';
+import makeSelect{{properCase name}} from './selectors';
 {{/if}}
 {{#if wantMessages}}
 import messages from './messages';
@@ -48,22 +45,17 @@ export class {{ properCase name }} extends React.{{{ component }}} {
 
 {{ properCase name }}.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  apiData_{{ properCase name }}: PropTypes.array,
-  {{ name }}DispatchApiData: PropTypes.func
 };
 
 {{#if wantActionsAndReducer}}
 const mapStateToProps = createStructuredSelector({
   {{camelCase name}}: makeSelect{{properCase name}}(),
-  {{ name }}PropsApiData: make{{ properCase name }}ApiDataSelector
 });
 {{/if}}
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    {{ name }}ApiData: (tenantId, skip, take) =>
-      dispatch({{ name }}ActionApiData(tenantId, skip, take))
   };
 }
 

@@ -1,4 +1,4 @@
-/*
+/**
  *
  * {{properCase name }}
  *
@@ -15,27 +15,33 @@ import { FormattedMessage } from 'react-intl';
 {{/if}}
 {{#if wantActionsAndReducer}}
 import { createStructuredSelector } from 'reselect';
-import {
-  makeSelect{{properCase name}},
-  make{{properCase name }}ApiDataSelector,
- } from './selectors';
+{{/if}}
+import { compose } from 'redux';
+
+{{#if wantSaga}}
+import injectSaga from 'utils/injectSaga';
+{{/if}}
+{{#if wantActionsAndReducer}}
+import injectReducer from 'utils/injectReducer';
+import makeSelect{{properCase name}} from './selectors';
+import reducer from './reducer';
+{{/if}}
+{{#if wantSaga}}
+import saga from './saga';
 {{/if}}
 {{#if wantMessages}}
 import messages from './messages';
 {{/if}}
 
 /* eslint-disable react/prefer-stateless-function */
-export class {{ properCase name }} extends React.{{{ component }}} {
+export class {{ properCase name }} extends {{{ type }}} {
   render() {
     return (
       <div>
       {{#if wantHeaders}}
         <Helmet>
           <title>{{properCase name}}</title>
-          <meta
-            name="description"
-            content="Description of {{properCase name}}"
-          />
+          <meta name="description" content="Description of {{properCase name}}" />
         </Helmet>
       {{/if}}
       {{#if wantMessages}}
@@ -48,27 +54,40 @@ export class {{ properCase name }} extends React.{{{ component }}} {
 
 {{ properCase name }}.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  apiData_{{ properCase name }}: PropTypes.array,
-  {{ name }}DispatchApiData: PropTypes.func
 };
 
 {{#if wantActionsAndReducer}}
 const mapStateToProps = createStructuredSelector({
-  {{camelCase name}}: makeSelect{{properCase name}}(),
-  {{ name }}PropsApiData: make{{ properCase name }}ApiDataSelector
+  {{ camelCase name }}: makeSelect{{properCase name}}(),
 });
 {{/if}}
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    {{ name }}ApiData: (tenantId, skip, take) =>
-      dispatch({{ name }}ActionApiData(tenantId, skip, take))
   };
 }
 
 {{#if wantActionsAndReducer}}
-export default connect(mapStateToProps, mapDispatchToProps)({{ properCase name }});
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
+
+const withReducer = injectReducer({ key: '{{ camelCase name }}', reducer });
 {{else}}
-export default connect(null, mapDispatchToProps)({{ properCase name }});
+const withConnect = connect(null, mapDispatchToProps);
 {{/if}}
+{{#if wantSaga}}
+const withSaga = injectSaga({ key: '{{ camelCase name }}', saga });
+{{/if}}
+
+export default compose(
+{{#if wantActionsAndReducer}}
+  withReducer,
+{{/if}}
+{{#if wantSaga}}
+  withSaga,
+{{/if}}
+  withConnect
+)({{ properCase name }});
