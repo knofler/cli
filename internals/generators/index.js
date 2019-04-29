@@ -19,7 +19,7 @@ const languageGenerator = require("./language/index.js");
 module.exports = plop => {
   plop.setGenerator("fullStack", fullStackGenerator);
   plop.setGenerator("create", createGenerator);
-  plop.setGenerator("crud", crudGenerator);
+  plop.setGenerator("NOT_READY_crud", crudGenerator);
   plop.setGenerator("api", apiGenerator);
   plop.setGenerator("component", componentGenerator);
   plop.setGenerator("container", containerGenerator);

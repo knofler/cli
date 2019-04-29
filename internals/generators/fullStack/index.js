@@ -4,8 +4,8 @@
 
 const path = require('path');
 
-const react_app = path.join('../../../','aircanteen', '/app/','containers');
-const mongo_api = path.join('../../../','mern-starter','/server/', 'api')
+const react_app = path.join('../../../','react_aircanteen', '/app/','containers');
+const mongo_api = path.join('../../../','mern_aircanteen','/server/', 'api')
 
 console.log('react_app ', react_app)
 console.log('mongo_api', mongo_api)
