@@ -6,60 +6,46 @@
 
 /**
  *
- * {{properCase name }}
+ * Create
  *
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-{{#if wantHeaders}}
 import { Helmet } from 'react-helmet';
-{{/if}}
-{{#if wantMessages}}
 import { FormattedMessage } from 'react-intl';
-{{/if}}
-{{#if wantActionsAndReducer}}
 import { createStructuredSelector } from 'reselect';
-{{/if}}
 import { compose } from 'redux';
 import Card from "components/Card";
 import Form from "components/Form";
 import { 
-  {{ name }}ActionAdd,
-  {{ name }}ActionAddPost,
-  {{ name }}ActionAddChangeModel,
-  {{ name }}ActionAddFormStructure,
-  {{ name }}ActionAddSetFormState,
-  {{ name }}ActionAddFormInputReset
+  createActionAdd,
+  createActionAddPost,
+  createActionAddChangeModel,
+  createActionAddFormStructure,
+  createActionAddSetFormState,
+  createActionAddFormInputReset
  } from "./actions";
 
-{{#if wantSaga}}
 import injectSaga from 'utils/injectSaga';
-{{/if}}
-{{#if wantActionsAndReducer}}
 import injectReducer from 'utils/injectReducer';
 import {
-  makeSelect{{properCase name}},
-  make{{properCase name }}AddPayloadSelector,
-  make{{properCase name }}AddModelSelector,
-  make{{properCase name }}AddFormStructureSelector,
-  make{{properCase name }}AddInputSelector,
-  make{{properCase name }}AddFormItemResetSelector
+  makeSelectCreate,
+  makeCreateAddPayloadSelector,
+  makeCreateAddModelSelector,
+  makeCreateAddFormStructureSelector,
+  makeCreateAddInputSelector,
+  makeCreateAddFormItemResetSelector
  } from './selectors';
 import reducer from './reducer';
-{{/if}}
-{{#if wantSaga}}
 import saga from './saga';
-{{/if}}
-{{#if wantMessages}}
 import messages from './messages';
-{{/if}}
 
-import "./Create.css";
+import "./create.css";
 
 /* eslint-disable react/prefer-stateless-function */
-export class {{ properCase name }} extends {{{ type }}} {
+export class Create extends React.Component {
   constructor(props) {
     super(props);
     // Local component States
@@ -70,16 +56,14 @@ export class {{ properCase name }} extends {{{ type }}} {
     // this.addFormAPICall = this.addFormAPICall.bind(this);
   }
   
-  {{#if wantSaga}}
   componentDidMount() {
     // On Component Mount, set the form structure and Model
-    this.props.{{ name }}DispatchAdd({
+    this.props.createDispatchAdd({
       model: this.props.model,
       struct: this.props.formStructure
     });
 
   }
-  {{/if}}
   
   // Form Handlechange event handlers              
   handleChange = (element, e) => {
@@ -95,7 +79,7 @@ export class {{ properCase name }} extends {{{ type }}} {
     userInput[e.currentTarget.name] = e.currentTarget.value;
 
     setTimeout(() => {
-      this.props.{{ name }}DispatchAddSetFormState(userInput);
+      this.props.createDispatchAddSetFormState(userInput);
     }, 10);
   };
                 
@@ -111,67 +95,61 @@ export class {{ properCase name }} extends {{{ type }}} {
     setTimeout(() => {
       console.log("userInput in add is :", userInput);
       console.log(
-        "After input setInput {{ upperCase name}}_STATE_ADD_INPUT in addFormApi Func is  :",
-        this.props.{{ name }}PropsAddInput
+        "After input setInput CREATE_STATE_ADD_INPUT in addFormApi Func is  :",
+        this.props.createPropsAddInput
       );
       // Make API call
-      this.props.{{ name }}DispatchAddPost({
+      this.props.createDispatchAddPost({
         model: this.props.model,
         input: userInput
       });
       // clear the local form
       this.refs.form.reset();
-      // clear {{ upperCase name}}_STATE_ADD_INPUT
-      // this.props.{{ name }}DispatchAddFormInputReset();
+      // clear CREATE_STATE_ADD_INPUT
+      // this.props.createDispatchAddFormInputReset();
     }, 200);
   };             
             
   render() {
-    {{#if wantSaga}}
      
-    {{/if}}
     if (this.props.formStructure && this.props.deploy === true) {
       return (
         <div>
-          {{#if wantHeaders}}
             <Helmet>
-              <title>{{properCase name}}</title>
-              <meta name="description" content="Description of {{properCase name}}" />
+              <title>Create</title>
+              <meta name="description" content="Description of Create" />
             </Helmet>
-          {{/if}}
-          {{#if wantMessages}}
             <FormattedMessage {...messages.header} />
-          {{/if}}
             <div>
               <div>
                 Injected Model is :::
-                <strong> {this.props.{{ name }}PropsAddModel}</strong>
+                <strong> {this.props.createPropsAddModel}</strong>
               </div>
               <div>
                 Form Structure Passed on ::
                 <pre>
-                  {JSON.stringify(this.props.{{ name }}PropsAddFormStructure)}
+                  {JSON.stringify(this.props.createPropsAddFormStructure)}
                 </pre>
               </div>
               <div>
                 <p>
                   Submited Forms JSON Response :: <br />
                   <pre className="jsonResponse">
-                    {JSON.stringify(this.props.{{ name }}PropsAddPayload)}
+                    {JSON.stringify(this.props.createPropsAddPayload)}
                   </pre>
                 </p>
               </div>
               <div>
                 User Input is ::
                 <pre className="userInput">
-                  {JSON.stringify(this.props.{{ name }}PropsAddInput)}
+                  {JSON.stringify(this.props.createPropsAddInput)}
                 </pre>
               </div>
               <div>
                 Form Reset Status :::
                 <strong>
                   {" "}
-                  {JSON.stringify(this.props.{{ name }}PropsAddFormReset)}
+                  {JSON.stringify(this.props.createPropsAddFormReset)}
                 </strong>
             </div>
             </div>
@@ -202,83 +180,71 @@ export class {{ properCase name }} extends {{{ type }}} {
     return (
       <div>
         <Helmet>
-          <title>{{properCase name }}</title>
-          <meta name="description" content="Description of {{properCase name }}" />
+          <title>Create</title>
+          <meta name="description" content="Description of Create" />
         </Helmet>
         <FormattedMessage {...messages.header} />
         <div>
-          <pre>{/* <code>{this.state.{{ name }}PropsAddPayload}</code> */}</pre>
+          <pre>{/* <code>{this.state.createPropsAddPayload}</code> */}</pre>
         </div>
       </div>
     );               
   }
 }
 
-{{ properCase name }}.propTypes = {
+Create.propTypes = {
   //dispatch: PropTypes.func.isRequired,
   formStructure: PropTypes.array.isRequired,
   model: PropTypes.string.isRequired,
   deploy: PropTypes.bool.isRequired,
-  {{ name }}DispatchAdd: PropTypes.func,
-  {{ name }}DispatchAddPost: PropTypes.func,
-  {{ name }}DispatchAddFormStructure: PropTypes.func,
-  {{ name }}DispatchAddChangeModel: PropTypes.func,
-  {{ name }}DispatchAddFormInputReset: PropTypes.func,
-  {{ name }}DispatchAddSetFormState: PropTypes.func,
-  {{ name }}PropsAddPayload: PropTypes.object,
-  {{ name }}PropsAddInput: PropTypes.object,
-  {{ name }}PropsAddFormReset: PropTypes.bool
+  createDispatchAdd: PropTypes.func,
+  createDispatchAddPost: PropTypes.func,
+  createDispatchAddFormStructure: PropTypes.func,
+  createDispatchAddChangeModel: PropTypes.func,
+  createDispatchAddFormInputReset: PropTypes.func,
+  createDispatchAddSetFormState: PropTypes.func,
+  createPropsAddPayload: PropTypes.object,
+  createPropsAddInput: PropTypes.object,
+  createPropsAddFormReset: PropTypes.bool
 };
 
-{{#if wantActionsAndReducer}}
 const mapStateToProps = createStructuredSelector({
-  //{{ camelCase name }}: makeSelect{{properCase name}}(),
-  {{ name }}PropsAddPayload: make{{properCase name }}AddPayloadSelector(),
-  {{ name }}PropsAddModel: make{{properCase name }}AddModelSelector(),
-  {{ name }}PropsAddFormStructure: make{{properCase name }}AddFormStructureSelector(),
-  {{ name }}PropsAddInput: make{{properCase name }}AddInputSelector(),
-  {{ name }}PropsAddFormReset: make{{properCase name }}AddFormItemResetSelector()
+  //create: makeSelectCreate(),
+  createPropsAddPayload: makeCreateAddPayloadSelector(),
+  createPropsAddModel: makeCreateAddModelSelector(),
+  createPropsAddFormStructure: makeCreateAddFormStructureSelector(),
+  createPropsAddInput: makeCreateAddInputSelector(),
+  createPropsAddFormReset: makeCreateAddFormItemResetSelector()
 });
-{{/if}}
 
 function mapDispatchToProps(dispatch) {
   return {
     // dispatch,
-   {{ name }}DispatchAdd: ({ struct, model }) =>
-      dispatch({{ name }}ActionAdd({ struct, model })),
-    {{ name }}DispatchAddPost: ({ input, model }) =>
-      dispatch({{ name }}ActionAddPost({ input, model })),
-    {{ name }}DispatchAddSetFormState: input =>
-      dispatch({{ name }}ActionAddSetFormState(input)),
-    {{ name }}DispatchAddFormInputReset: () =>
-      dispatch({{ name }}ActionAddFormInputReset()),
-    {{ name }}DispatchAddFormStructure: ({ data }) =>
-      dispatch({{ name }}ActionAddFormStructure({ data })),
-    {{ name }}DispatchAddChangeModel: ({ model }) =>
-      dispatch({{ name }}ActionAddChangeModel({ model }))
+   createDispatchAdd: ({ struct, model }) =>
+      dispatch(createActionAdd({ struct, model })),
+    createDispatchAddPost: ({ input, model }) =>
+      dispatch(createActionAddPost({ input, model })),
+    createDispatchAddSetFormState: input =>
+      dispatch(createActionAddSetFormState(input)),
+    createDispatchAddFormInputReset: () =>
+      dispatch(createActionAddFormInputReset()),
+    createDispatchAddFormStructure: ({ data }) =>
+      dispatch(createActionAddFormStructure({ data })),
+    createDispatchAddChangeModel: ({ model }) =>
+      dispatch(createActionAddChangeModel({ model }))
   };
 }
 
-{{#if wantActionsAndReducer}}
 const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps
 );
 
-const withReducer = injectReducer({ key: '{{ camelCase name }}', reducer });
-{{else}}
-const withConnect = connect(null, mapDispatchToProps);
-{{/if}}
-{{#if wantSaga}}
-const withSaga = injectSaga({ key: '{{ camelCase name }}', saga });
-{{/if}}
+const withReducer = injectReducer({ key: 'create', reducer });
+const withSaga = injectSaga({ key: 'create', saga });
 
 export default compose(
-{{#if wantActionsAndReducer}}
   withReducer,
-{{/if}}
-{{#if wantSaga}}
   withSaga,
-{{/if}}
   withConnect
-)({{ properCase name }});
+)(Create);

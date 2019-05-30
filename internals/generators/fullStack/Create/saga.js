@@ -2,25 +2,23 @@
 /* eslint-disable no-console */
 /*
 *
-* {{ upperCase name }} saga
+* CREATE saga
 *
 */
 
 import { all, call, put, takeLatest } from "redux-saga/effects";
-{{#if wantSocket}}
 import { socket } from "utils/socketio-client";
-{{/if}}
 import { 
-  {{ upperCase name }}_CONST_ADD_POST 
+  CREATE_CONST_ADD_POST 
 } from "./constants";
 
 import { 
-  {{ name }}ActionAddSuccess, 
-  {{ name }}ActionAddError 
+  createActionAddSuccess, 
+  createActionAddError 
 } from "./actions";
 
 const herokuAPIURL = "https://mernaircanteen.herokuapp.com";
-const model = "/api/{{ model }}";
+const model = "/api/orders";
 const getUrl = process.env.API_URL || herokuAPIURL;
 const url = getUrl + model;
 
@@ -30,31 +28,31 @@ console.log("url is ", url);
 
 // Load Functions on Event Change
 
-function* {{ name }}SagaAdd() {
-  yield takeLatest({{ upperCase name }}_CONST_ADD_POST, fetch{{properCase name}}Add);
+function* createSagaAdd() {
+  yield takeLatest(CREATE_CONST_ADD_POST, fetchCreateAdd);
 }
 
 
-function* fetch{{properCase name}}Add(action) {
+function* fetchCreateAdd(action) {
   try {
-    // CRUD_CONST_{{ upperCase name }} event action and api call
+    // CRUD_CONST_CREATE event action and api call
     console.log(
-      "{{ upperCase name }}_CONST_ADD_POST constant's action in saga is:: ",
+      "CREATE_CONST_ADD_POST constant's action in saga is:: ",
       action
     );
     console.log(
-      "{{ upperCase name }}_CONST_ADD constant's action.data in saga is:: ",
+      "CREATE_CONST_ADD constant's action.data in saga is:: ",
       action.input
     );
     console.log(
-      "{{ upperCase name }}_CONST_ADD_POST constant's action.model in saga is:: ",
+      "CREATE_CONST_ADD_POST constant's action.model in saga is:: ",
       action.model
     );
 
     if (action.input !== undefined && action.model !== undefined) {
-      const {{properCase name}}Url = `${getUrl}/api/${action.model}`;
-      console.log("{{properCase name}}Url:", {{properCase name}}Url);
-      const response = yield call(fetch, {{properCase name}}Url, {
+      const CreateUrl = `${getUrl}/api/${action.model}`;
+      console.log("CreateUrl:", CreateUrl);
+      const response = yield call(fetch, CreateUrl, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -64,27 +62,25 @@ function* fetch{{properCase name}}Add(action) {
       });
       const responseBody = yield response.json();
       console.log(
-        "responseBody of {{ upperCase name }}_CONST_ADD_POST in saga is",
+        "responseBody of CREATE_CONST_ADD_POST in saga is",
         responseBody
       );
       if (!responseBody.errors) {
         window.localStorage.setItem(
-          "{{properCase name}}-data",
+          "Create-data",
           JSON.stringify(responseBody)
         );
-        yield put({{ name }}ActionAddSuccess(responseBody));
-        {{#if wantSocket}}
+        yield put(createActionAddSuccess(responseBody));
         socket.emit("add_data", responseBody);
-        {{/if}}
       }
     }
   } catch (error) {
-    yield put({{ name }}ActionAddError(error));
+    yield put(createActionAddError(error));
   }
 }
 
 // Individual exports for testing
-export default function* {{ name }}Saga() {
+export default function* createSaga() {
   // See example in containers/HomePage/saga.js
-  yield all([{{ name }}SagaAdd()]);
+  yield all([createSagaAdd()]);
 }

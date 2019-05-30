@@ -4,14 +4,14 @@
 /* eslint-disable no-console */
 /* eslint-disable comma-dangle */
 
-/**
+/*
  *
  * {{properCase name }}
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 {{#if wantHeaders}}
 import { Helmet } from 'react-helmet';
@@ -21,24 +21,6 @@ import { FormattedMessage } from 'react-intl';
 {{/if}}
 {{#if wantActionsAndReducer}}
 import { createStructuredSelector } from 'reselect';
-{{/if}}
-import { compose } from 'redux';
-import Card from "components/Card";
-import Form from "components/Form";
-import { 
-  {{ name }}ActionAdd,
-  {{ name }}ActionAddPost,
-  {{ name }}ActionAddChangeModel,
-  {{ name }}ActionAddFormStructure,
-  {{ name }}ActionAddSetFormState,
-  {{ name }}ActionAddFormInputReset
- } from "./actions";
-
-{{#if wantSaga}}
-import injectSaga from 'utils/injectSaga';
-{{/if}}
-{{#if wantActionsAndReducer}}
-import injectReducer from 'utils/injectReducer';
 import {
   makeSelect{{properCase name}},
   make{{properCase name }}AddPayloadSelector,
@@ -47,16 +29,10 @@ import {
   make{{properCase name }}AddInputSelector,
   make{{properCase name }}AddFormItemResetSelector
  } from './selectors';
-import reducer from './reducer';
-{{/if}}
-{{#if wantSaga}}
-import saga from './saga';
-{{/if}}
-{{#if wantMessages}}
+ {{/if}}
+ {{#if wantMessages}}
 import messages from './messages';
 {{/if}}
-
-import "./Create.css";
 
 /* eslint-disable react/prefer-stateless-function */
 export class {{ properCase name }} extends {{{ type }}} {
@@ -69,7 +45,6 @@ export class {{ properCase name }} extends {{{ type }}} {
     // Binding Component specific methods
     // this.addFormAPICall = this.addFormAPICall.bind(this);
   }
-  
   {{#if wantSaga}}
   componentDidMount() {
     // On Component Mount, set the form structure and Model
@@ -125,11 +100,14 @@ export class {{ properCase name }} extends {{{ type }}} {
       // this.props.{{ name }}DispatchAddFormInputReset();
     }, 200);
   };             
-            
+                
+                
+
   render() {
     {{#if wantSaga}}
      
     {{/if}}
+    
     if (this.props.formStructure && this.props.deploy === true) {
       return (
         <div>
@@ -214,6 +192,7 @@ export class {{ properCase name }} extends {{{ type }}} {
   }
 }
 
+
 {{ properCase name }}.propTypes = {
   //dispatch: PropTypes.func.isRequired,
   formStructure: PropTypes.array.isRequired,
@@ -259,26 +238,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-{{#if wantActionsAndReducer}}
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
 
-const withReducer = injectReducer({ key: '{{ camelCase name }}', reducer });
+{{#if wantActionsAndReducer}}
+export default connect(mapStateToProps, mapDispatchToProps)({{ properCase name }});
 {{else}}
-const withConnect = connect(null, mapDispatchToProps);
+export default connect(null, mapDispatchToProps)({{ properCase name }});
 {{/if}}
-{{#if wantSaga}}
-const withSaga = injectSaga({ key: '{{ camelCase name }}', saga });
-{{/if}}
-
-export default compose(
-{{#if wantActionsAndReducer}}
-  withReducer,
-{{/if}}
-{{#if wantSaga}}
-  withSaga,
-{{/if}}
-  withConnect
-)({{ properCase name }});
