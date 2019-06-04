@@ -23,6 +23,7 @@ import Card from "components/Card";
 {{#if wantCRUD}}
 import Create from "containers/Create/Loadable";
 import Update from "containers/Update/Loadable";
+import Delete from "containers/Delete/Loadable";
 {{/if}}
 {{#if wantSearch}}
 import SearchBox from "components/SearchBox";
@@ -64,7 +65,10 @@ export class {{ properCase name }} extends {{{ type }}} {
     this.state = {
       add: false,
       update: false,
-      deploy: true,
+      delete: false,
+      read: true,
+      model: "{{ model }}",
+      formStructure: {{ properCase name }}Form,
       data: [],
       {{#if wantSearch}}
       searchTerm: "",
@@ -83,13 +87,13 @@ export class {{ properCase name }} extends {{{ type }}} {
   componentDidMount() {
     // load API Data
     this.props.{{ name }}DispatchApiData({
-      model: "{{ model }}"
+      model: this.state.model
     });
     {{#if wantSocket}}
     socket.on("get_add_data", data => {
       console.log("add data recieved", data);
       this.props.{{ name }}DispatchApiData({
-        model: "{{ model }}"
+        model: this.state.model
       });
     });
     socket.on("save", data => {
@@ -98,13 +102,13 @@ export class {{ properCase name }} extends {{{ type }}} {
     socket.on("get_update_data", data => {
       console.log("update data recieved", data);
       this.props.{{ name }}DispatchApiData({
-        model: "{{ model }}"
+        model: this.state.model
       });
     });
     socket.on("get_delete_data", data => {
       console.log("delete data recieved", data);
       this.props.{{ name }}DispatchApiData({
-        model: "{{ model }}"
+        model: this.state.model
       });
     });
     {{/if}}
@@ -139,7 +143,7 @@ export class {{ properCase name }} extends {{{ type }}} {
     e.preventDefault();
     this.setState({
       add: true,
-      deploy: false
+      read: false
     });
   };
 
@@ -150,7 +154,7 @@ export class {{ properCase name }} extends {{{ type }}} {
     console.log("id is ", id);
     this.setState({
       update: true,
-      deploy: false,
+      read: false,
       id
     });
   };
@@ -160,10 +164,13 @@ export class {{ properCase name }} extends {{{ type }}} {
     e.preventDefault();
     console.log("e is ", e);
     console.log("id is ", id);
-    alert("You sure you want to delete?");
+    // alert("You sure you want to delete?");
     this.setState({
+      delete: true,
+      read: false,
       id
     });
+    // console.log("Delete is :", <Delete />);
   };
   {{/if}}
 
@@ -177,9 +184,10 @@ export class {{ properCase name }} extends {{{ type }}} {
 
   backButton = () => {
     this.setState({
-      deploy: true,
+      read: true,
       add: false,
-      update: false
+      update: false,
+      delete: false,
     });
   };
 
@@ -207,8 +215,8 @@ export class {{ properCase name }} extends {{{ type }}} {
             </button>
           </div>
           <Create
-            formStructure={ {{ properCase name }}Form }
-            model="{{ model }}"
+            formStructure={ this.state.formStructure}
+            model={this.state.model}
             deploy={this.state.add}
           />
         </div>
@@ -236,15 +244,40 @@ export class {{ properCase name }} extends {{{ type }}} {
           </div>
           <Update
             id={this.state.id}
-            formStructure={ {{ properCase name }}Form }
-            model="{{ model }}"
+            formStructure={this.state.formStructure}
+            model={this.state.model}
             deploy={this.state.update}
           />
         </div>
       );
     }
+    if (this.state.delete) {
+      return (
+        <div>
+          <Helmet>
+            <title>Book</title>
+            <meta name="description" content="Description of Book" />
+          </Helmet>
+          <FormattedMessage {...messages.header} />
+          <div>
+            <button
+              className="btn btn-danger"
+              type="button"
+              onClick={this.backButton}
+            >
+              Back
+            </button>
+          </div>
+          <Delete 
+            id={this.state.id} 
+            model={this.state.model} 
+            deploy={this.state.delete} 
+          />
+        </div>
+      );
+    }
     {{/if}}
-    if (this.state.deploy) {
+    if (this.state.read) {
       return (
         <div>
           {{#if wantHeaders}}

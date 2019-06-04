@@ -553,6 +553,118 @@ module.exports = {
        }
       
     }
+
+      // If Update is wanted
+    if (data.wantDelete) {
+
+        actions.push({
+          type: "add",
+          path: `${react_app}/Delete/index.js`,
+          templateFile: "./fullStack/Delete/index.js",
+          abortOnFail: true
+        });
+
+        // If component wants messages
+        if (data.wantMessages) {
+          actions.push({
+            type: "add",
+            path: `${react_app}/Delete/messages.js`,
+            templateFile: "./fullStack/Delete/messages.js",
+            abortOnFail: true
+          });
+        }
+
+        // If they want actions and a reducer, generate actions.js, constants.js,
+        // reducer.js and the corresponding tests for actions and the reducer
+        if (data.wantActionsAndReducer) {
+          // Actions
+          actions.push({
+            type: "add",
+            path: `${react_app}/Delete/actions.js`,
+            templateFile: "./fullStack/Delete/actions.js",
+            abortOnFail: true
+          });
+          actions.push({
+            type: "add",
+            path: `${react_app}/Delete/tests/actions.test.js`,
+            templateFile: "./fullStack/Delete/tests/actions.test.js",
+            abortOnFail: true
+          });
+
+          // Constants
+          actions.push({
+            type: "add",
+            path: `${react_app}/Delete/constants.js`,
+            templateFile: "./fullStack/Delete/constants.js",
+            abortOnFail: true
+          });
+
+          // Selectors
+          actions.push({
+            type: "add",
+            path: `${react_app}/Delete/selectors.js`,
+            templateFile: "./fullStack/Delete/selectors.js",
+            abortOnFail: true
+          });
+          actions.push({
+            type: "add",
+            path: `${react_app}/Delete/tests/selectors.test.js`,
+            templateFile: "./fullStack/Delete/tests/selectors.test.js",
+            abortOnFail: true
+          });
+
+          // Reducer
+          actions.push({
+            type: "add",
+            path: `${react_app}/Delete/reducer.js`,
+            templateFile: "./fullStack/Delete/reducer.js",
+            abortOnFail: true
+          });
+          actions.push({
+            type: "add",
+            path: `${react_app}/Delete/tests/reducer.test.js`,
+            templateFile: "./fullStack/Delete/tests/reducer.test.js",
+            abortOnFail: true
+          });
+        }
+
+        // Sagas
+        if (data.wantSaga) {
+          actions.push({
+            type: "add",
+            path: `${react_app}/Delete/saga.js`,
+            templateFile: "./fullStack/Delete/saga.js",
+            abortOnFail: true
+          });
+          actions.push({
+            type: "add",
+            path: `${react_app}/Delete/tests/saga.test.js`,
+            templateFile: "./fullStack/Delete/tests/saga.test.js",
+            abortOnFail: true
+          });
+        }
+
+        // Loadable
+        if (data.wantLoadable) {
+          actions.push({
+            type: "add",
+            path: `${react_app}/Delete/Loadable.js`,
+            templateFile: "./component/loadable.js.hbs",
+            abortOnFail: true
+          });
+        }
+
+        // If wants CSS
+        if (data.wantCSS) {
+          actions.push({
+            type: "add",
+            path: `${react_app}/Delete/Delete.css`,
+            templateFile: "./fullStack/Delete/Delete.css",
+            abortOnFail: true
+          });
+        }
+
+      }
             
     // If API is wanted
     if (data.wantApi) {
